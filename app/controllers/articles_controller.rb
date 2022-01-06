@@ -12,26 +12,35 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = Article.new(article_params)
-
-    if @article.save
-      redirect_to root_path
-    else
-      render :new, status: :unprocessable_entity
-    end
+    title = params[:title]
+    body = params[:body]
+    new_article = Article.create(
+      title:title,
+      body:body,
+      completed:false
+    )
+    redirect_to root_path
   end
   def edit
     @article = Article.find(params[:id])
   end
 
-  def update
-    @article = Article.find(params[:id])
+  # def update
 
-    if @article.update(article_params)
-      redirect_to @article
-    else
-      render :edit, status: :unprocessable_entity
-    end
+  #   @article = Article.find(params[:id])
+
+  #   if @article.update(article_params)
+  #     redirect_to @article
+  #   else
+  #     render :edit, status: :unprocessable_entity
+  #   end
+  # end
+  def update
+    completed = params[:completed]
+    article = Article.find(params[:id])
+    article.completed = completed
+    article.save
+    redirect_to root_path
   end
   def destroy
     @article = Article.find(params[:id])

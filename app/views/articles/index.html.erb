@@ -1,9 +1,26 @@
 <h1>My Todo list</h1>
 
+<form action="/articles" accept-charset="UTF-8" method="post">
+  <div>
+    <input type="text" name="title" placeholder="What's next?">
+    <input type="date" name="body"/>
+    <input type="submit" name="commit" value="Add" data-disable-with="Create Article">
+  </div>
+</form>
+
 <ul>
   <% @articles.each do |article| %>
-    <li>
-      <%= link_to article.title, article %>
+    <li style="display:flex">
+     <%= form_with url:"/articles/#{article.id}",method: :put do %>
+        <input name = "completed"
+         type="checkbox"
+          onclick="this.form.submit()"
+          <%= article.completed ? "checked" : ""%>
+          >
+      <% end %>
+      <%=  article.completed %>  
+      <%=  article.body %>  
+      <%=  article.title%>
       <%= form_with url:"/articles/#{article.id}",method: :delete do %>
         <input type="submit" name="commit" value="delete">
       <% end %>
@@ -11,12 +28,3 @@
 
   <% end %>
 </ul>
-
-
-<form action="/articles" accept-charset="UTF-8" method="post">
-  <div>
-    <input type="text" name="article[title]" placeholder="What's next?">
-    <textarea name="article[body]" id="article_body"></textarea>
-    <input type="submit" name="commit" value="Add" data-disable-with="Create Article">
-  </div>
-</form>
