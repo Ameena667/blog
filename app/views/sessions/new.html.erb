@@ -1,0 +1,8 @@
+<p>sign in existing user</p>
+<%= form_with url: sessions_path do |form| %>
+  <p>name</p>
+  <%= form.text_field :name %>
+  <p>email </p>
+  <%= form.text_field :email %>
+  <%= form.submit "Sign-in"%>
+<% end %>
