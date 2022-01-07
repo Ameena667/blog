@@ -11,6 +11,11 @@
   </head>
 
   <body>
+    <%if @current_user%>
+      <span>
+        <%= [@current_user.name ,  @current_user.email].join(',')%>
+      </span>
+    <%end%>
     <%= yield %>
   </body>
 </html>
