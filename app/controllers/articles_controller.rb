@@ -1,10 +1,12 @@
 class ArticlesController < ApplicationController
   def index
-    @articles = Article.all
+    # @articles = Article.all
+    # @todo = Todo.where(user_id : session[:current_user_id])
+    @articles = Article.where(user_id: session[:current_user_id])
   end
 
   def show
-    @article = Article.find(params[:id])
+    @article = Article.where(user_id: session[:current_user_id]).find(params[:id])
   end
 
   def new
@@ -17,9 +19,10 @@ class ArticlesController < ApplicationController
     new_article = Article.create(
       title:title,
       body:body,
-      completed:false
+      completed:false,
+      user_id: session[:current_user_id]
     )
-    redirect_to root_path
+    redirect_to articles_path
   end
   def edit
     @article = Article.find(params[:id])
@@ -27,16 +30,16 @@ class ArticlesController < ApplicationController
 
   def update
     completed = params[:completed]
-    article = Article.find(params[:id])
+    article = Article.where(user_id: session[:current_user_id]).find(params[:id])
     article.completed = completed
     article.save
-    redirect_to root_path
+    redirect_to articles_path
   end
   def destroy
-    @article = Article.find(params[:id])
+    @article = Article.where(user_id: session[:current_user_id]).find(params[:id])
     @article.destroy
 
-    redirect_to root_path
+    redirect_to articles_path
   end
   private
     def article_params
